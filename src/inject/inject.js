@@ -3,14 +3,20 @@ chrome.extension.sendMessage({}, function(response) {
 	if (document.readyState === "complete") {
 		clearInterval(readyStateCheckInterval);
 
-		document.querySelector('body').append(`
-			<p>test</p>
-		`)
+		let assistant = `
+				<p>верстка</p>
+		`;
+
+		document.querySelector('body').append(assistant);
+
+		console.log('Скрипт подключен')
 		// var recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)();
 		// recognition.lang = 'en-US';
 		// recognition.interimResults = false;
 		// recognition.maxAlternatives = 5;
 		// recognition.start();
+
+
 
 	}
 	}, 10);
