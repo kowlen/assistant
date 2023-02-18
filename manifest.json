@@ -9,12 +9,13 @@
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
   },
+  "web_accessible_resources": ["icons/*.svg"],
   "default_locale": "en",
   "background": {
     "scripts": [
       "src/bg/background.js",
       "./js/jquery/jquery.js",
-      "./js/jquery-ui/jquery-ui.min.js"
+      "./js/kendo.all.min.js"
     ],
     "persistent": true
   },
@@ -30,7 +31,8 @@
       ],
       "css": [
         "./src/inject/inject.css",
-        "./js/jquery-ui/jquery-ui.min.css"
+        "./js/jquery-ui/jquery-ui.min.css",
+        "./css/kendo.default-ocean-blue.min.css"
       ]
     },
     {
@@ -40,7 +42,8 @@
       "js": [
         "src/inject/inject.js",
         "./js/jquery/jquery.js",
-        "./js/jquery-ui/jquery-ui.min.js"
+        "./js/jquery-ui/jquery-ui.min.js",
+        "./js/kendo.all.min.js"
       ]
     }
   ]
