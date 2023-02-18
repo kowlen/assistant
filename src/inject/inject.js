@@ -10,7 +10,7 @@ chrome.extension.sendMessage({}, function(response) {
          </div>
 		`;
 
-		document.querySelector('body').append(assistant);
+		$('body').append(assistant);
 
 		console.log('Скрипт подключен')
 
