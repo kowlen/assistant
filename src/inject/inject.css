@@ -1,21 +1,82 @@
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+.container {
+    padding-right: 16px;
+    padding-left: 16px;
+}
+
 .board {
-    height: 86%;
+    height: 75%;
     overflow-y: scroll;
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
 }
 
+.board::-webkit-scrollbar {
+    display: none;
+}
+
+.chat_header {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding: 12px 21px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
+    border-radius: 16px 16px 0px 0px;
+}
+
+.chat-header__title {
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 32px;
+}
+
+
 .board .recieved {
     align-self: flex-start;
-    width: 40%;
     margin: 2%;
+    max-width: 65%;
+    min-width: 35%;
+    border: 1px solid #D9D9D9;
+    border-radius: 12px 12px 12px 0px;
+    padding: 8px 16px;
   }
 
   .board .sent {
     align-self: flex-end;
-    width: 40%;
     margin: 2%;
+    max-width: 65%;
+    border: 1px solid #D9D9D9;
+    border-radius: 12px 12px 0px 12px;
+    padding: 8px 16px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .sent__messege {
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 32px;
+    margin-right: 8px;
+  }
+
+  .board-time {
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 32px;
+
+    color: #818181;
   }
 
 .sent__container, .sent__input-container {
@@ -40,6 +101,10 @@
     border: none;
     background-color: rgba(0, 0, 0, 0);
     cursor: pointer;
+    transition: 0.1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .chat{
@@ -55,9 +120,7 @@
     height: 74vh;
     position: absolute;
     right: 48px;
-    bottom: 137px;
-    padding-right: 16px;
-    padding-left: 16px;
+    bottom: 90px;
   }
 
 .question-wrap{
@@ -97,4 +160,9 @@
     transform: scale(1.5);
     right: 55px;
     bottom: 65px;
+  }
+
+  .add-btn {
+    margin-right: 10px;
+    
   }
