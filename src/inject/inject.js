@@ -3,11 +3,29 @@ chrome.extension.sendMessage({}, function(response) {
 	if (document.readyState === "complete") {
 		clearInterval(readyStateCheckInterval);
 
+		// var script = document.createElement('script');
+		// script.type = 'text/javascript';
+		// script.src = '.';
+		//
+		// document.head.appendChild(script);
+
 		let assistant = `
-				<p>верстка</p>
+				<p>фывфывфывф</p>
 		`;
 
-		document.querySelector('body').append(assistant);
+		$('body').append(assistant);
+
+		let textWindow = `
+				<p id="window"></p>
+		`;
+
+
+		$('body').append(textWindow);
+
+		$('#window').draggable({
+			// handle: tr_top,
+			containment: "window"
+		});
 
 		console.log('Скрипт подключен')
 		// var recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)();
@@ -15,6 +33,7 @@ chrome.extension.sendMessage({}, function(response) {
 		// recognition.interimResults = false;
 		// recognition.maxAlternatives = 5;
 		// recognition.start();
+
 
 
 
