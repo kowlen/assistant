@@ -3,37 +3,31 @@ chrome.extension.sendMessage({}, function(response) {
 	if (document.readyState === "complete") {
 		clearInterval(readyStateCheckInterval);
 
-		// var script = document.createElement('script');
-		// script.type = 'text/javascript';
-		// script.src = '.';
-		//
-		// document.head.appendChild(script);
-
 		let assistant = `
-				<p>фывфывфывф</p>
+		<div class="chat" id="chat"></div>
+		<div class="question-wrap" onclick="openChat()">
+          <div class="question"> </div>
+         </div>
 		`;
 
-		$('body').append(assistant);
-
-		let textWindow = `
-				<p id="window"></p>
-		`;
-
-
-		$('body').append(textWindow);
-
-		$('#window').draggable({
-			// handle: tr_top,
-			containment: "window"
-		});
+		document.querySelector('body').append(assistant);
 
 		console.log('Скрипт подключен')
+
+		function openChat () {
+			const chat = document.getElementById("chat");
+
+			if (chat.style.display === "none") {
+				chat.style.display = "block";
+			} else {
+				chat.style.display = "none";
+			}
+		}
 		// var recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)();
 		// recognition.lang = 'en-US';
 		// recognition.interimResults = false;
 		// recognition.maxAlternatives = 5;
 		// recognition.start();
-
 
 
 
