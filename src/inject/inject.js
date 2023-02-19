@@ -60,16 +60,23 @@ chrome.extension.sendMessage({}, function(response) {
 
 		console.log('Скрипт подключен');
 
+		const chat = $('.chat');
+
 		$('.question-wrap').on('click', function () {
 
 			console.log("it works")
-			const chat = $('.chat');
 
 			if(chat.css('display') === 'none'){
 				chat.fadeIn()
 			} else {
 				chat.fadeOut()
 			}
+		});
+
+		$('.close__btn').on('click', function () {
+			
+				chat.fadeOut()
+			
 		});
 
 
