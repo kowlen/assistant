@@ -1,0 +1,306 @@
+openapi: 3.0.3
+info:
+  title: Цифровой Ассистент
+  description: Цифровой помощник по заполнению заявки на получение грантов для молодёжи
+    России
+  version: 1.0.0
+paths:
+  /messages:
+    get:
+      description: return messages before curent
+      parameters:
+        
+        - name: user_id
+          in: cookie
+          required: true
+          schema:
+            type: integer
+        
+        - name: count
+          description: if not seted using default value...
+          in: query
+          schema:
+            type: integer
+        
+        - name: curent_id
+          in: query
+          description: 
+            curent message id. 
+            if not seted using last message id
+          schema:
+            type: integer
+        
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/message'
+              examples:
+                first:
+                  value:
+                  - user_id: 1
+                    serial_numer: 0
+                    request_id: 0
+                    from_user: true
+                    text: Hello, help with team page
+                    links: []
+                  
+                  - user_id: 1
+                    serial_numer: 1
+                    request_id: 0
+                    from_user: false
+                    text: Hello, your request is being processed...
+                    links: []
+                  
+                  - user_id: 1
+                    serial_numer: 2
+                    request_id: 0
+                    from_user: false
+                    text: First, download this file and complete it for all team members.
+                    links: 
+                      - title: consent to the processing of personal data.pdf
+                        url: https://example/api/files?uri=F8#g5G3$ep0
+                second:
+                  value:
+                  - user_id: 1
+                    serial_numer: 2
+                    request_id: 0
+                    from_user: false
+                    text: First, download this file and complete it for all team members.
+                    links: 
+                      - title: consent to the processing of personal data.pdf
+                        url: https://example/api/files?uri=F8#g5G3$ep0
+                  
+                  - user_id: 1
+                    serial_numer: 3
+                    request_id: 0
+                    from_user: false
+                    text: Next send file scan into fields 'consent to the processing of personal data'
+                    links:
+                      - title: Go to field
+                        url: https://example/team#cppd
+                      - title: How to send file.gif
+                        url: https://example/api/files?uri=8$f@AJ%l#d
+                      
+                  - user_id: 1
+                    serial_numer: 4
+                    request_id: 1
+                    from_user: true
+                    text: Now how I can ... 
+                    links: []
+    post:
+      description: send message
+      parameters:
+        
+      - name: user_id
+        in: cookie
+        required: true
+        schema:
+          type: integer
+          
+      - name: text
+        in: header
+        schema:
+          type: string
+        
+      - name: files
+        in: header
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              title:
+                type: string
+              data:
+                type: string
+                format: binary
+        examples:
+          test:
+            value:
+              - user_id: 1
+        
+      responses:
+        200:
+          description: OK
+                        
+  /files:
+    get:
+      description: return file data for download
+      parameters:
+        - name: user_id
+          in: cookie
+          required: true
+          schema:
+            type: integer
+        - name: uri
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uri
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/file'
+              example:
+                uri: F8#g5G3$ep0
+                file_name: consent to the processing of personal data.pdf
+                data: "1100_1101 1111_0011 0101_1100..."
+      
+components:
+  schemas:
+  
+    template:
+      description: form template chosen by the user
+      properties:
+        id:
+          type: integer
+          format: int16
+        title:
+          type: string
+    
+    user:
+      description: an service user
+      properties:
+        id:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 2_147_483_647
+        curent_request:
+          type: integer
+          format: int16
+          minimum: 0
+          maximum: 32_767
+          nullable: true
+    
+    request:
+      description: user help request
+      properties:
+        id:
+          type: integer
+          format: int16
+          minimum: 0
+          maximum: 32_767
+        user_id:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 2_147_483_647
+        template_id:
+          type: integer
+          format: int16
+        status:
+          type: integer
+          format: int8
+        request_date_time:
+          type: string
+          format: date-time
+    
+    message:
+      description: user chat message
+      properties:
+        user_id:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 2_147_483_647
+        serial_numer:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 2_147_483_647
+        request_id:
+          type: integer
+          format: int16
+          minimum: 0
+          maximum: 32_767
+        from_user:
+          type: boolean
+        send_time:
+          type: string
+          format: date-time
+        text:
+          type: string
+          maxLength: 255
+        links:
+          type: array
+          items:
+            type: object
+            properties:
+              title:
+                type: string
+              url:
+                type: string
+                format: url
+    
+    file:
+      description: file from DB
+      properties:
+        uri:
+          type: string
+          format: uri
+        file_name:
+          type: string
+          format: filename
+        data:
+          type: string
+          format: binary
+    
+    regexp:
+      description: regular expression to parse message
+      properties:
+        id:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 2_147_483_647
+        expression:
+          type: string
+    
+    regexp_sulution:
+      description: link betveen regular expression and solution
+      properties:
+        regexp_id:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 2_147_483_647
+        solution_id:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 2_147_483_647
+        link_veight:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 1
+    
+    solution:
+      description: request solution
+      properties:
+        id:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 2_147_483_647
+        template_id:
+          type: integer
+          format: int16
+        title:
+          type: string
+          maxLength: 255
+        steps:
+          type: array
+          items:
+           $ref: '#/components/schemas/message'
+        
