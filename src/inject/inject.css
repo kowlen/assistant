@@ -128,7 +128,6 @@
     background-color: #fff;
     border: 1px solid #D9D9D9;
     box-shadow: 0px 2px 8px 1px rgba(0, 0, 0, 0.25);
-    background-image: url("assets/icons/question.svg");
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 12px;
@@ -150,9 +149,8 @@
   .question-wrap:hover .question,
    .question.active
   {
-    background-image: url("assets/icons/question_white.svg");
+    
     background-color: #faa419;
-      background-image: url("/icons/question_white.svg");
   }
 
   .add-btn {
