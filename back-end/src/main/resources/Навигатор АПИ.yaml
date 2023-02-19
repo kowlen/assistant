@@ -1,0 +1,274 @@
+openapi: 3.0.3
+info:
+  title: Цифровой Навигатор
+  description: Цифровой помощник отсеживающий прогресс публикации проекта от регистрации Руководителя
+  version: 1.0.0
+paths:
+
+  /user:
+    get:
+      description: search user with uri
+      parameters:
+        - name: user_uri
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            integer:
+              schema:
+                type: integer
+                description: user ID
+        404:
+          description: User not found!
+          content:
+            text:
+              schema:
+                type: string
+                example: User not found
+    
+    post:
+      description: Register new user in system, throw exeption if uri is registered
+      parameters:
+        - name: user_uri
+          in: query
+          required: true
+          schema:
+            type: string
+            
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: integer
+                description: user ID
+                
+        400:
+          description: uri is registered!
+          content:
+            text:
+              schema:
+                type: string
+                example: URI is registered!
+    
+    put:
+      description: Edit user data
+      parameters:
+        - name: user_ID
+          in: header
+          required: true
+          schema:
+            type: integer
+        
+        - name: replace_uri
+          in: header
+          schema:
+            type: string
+        
+      responses:
+        200:
+          description: OK
+  
+  /guides:
+    get:
+      description: return user guides list
+      parameters:
+        - name: user_ID
+          in: header
+          required: true
+          schema:
+            type: integer
+        
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/guide'
+  
+  /guides/general:
+    get:
+      description: return general guides list
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/guide'
+  
+  /guide/{guide_id}:
+    get:
+      description: return guide info
+      parameters: 
+        - name: guide_id
+          in: path
+          schema:
+            type: integer
+          required: true
+        
+        - name: user_id
+          in: header
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/guide'
+                  
+    put:
+      description: edit guide progress
+      parameters: 
+        
+        - name: guide_id
+          in: path
+          schema:
+            type: integer
+          required: true
+        
+        - name: replace_curent_step
+          in: header
+          schema:
+            type: integer
+        
+        - name: complit_steps
+          in: header
+          schema:
+            type: array
+            items:
+              type: integer
+      responses:
+        200:
+          description: OK
+      
+  /guide/{guide_id}/steps:
+    get:
+      description: return guide steps
+      parameters: 
+        - name: guide_id
+          in: path
+          schema:
+            type: integer
+          required: true
+        
+        - name: user_id
+          in: header
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/step'
+  
+  /file/{file_uri}:
+    get:
+      description: return file with uri
+      parameters: 
+        - name: file_uri
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uri
+      responses:
+        200:
+          description: OK
+          content:
+            file:
+              schema:
+                example: 1011_0100 0111_1010
+                type: string
+                format: binary
+  
+components:
+  schemas:
+    
+    user:
+      description: an service user
+      properties:
+        id:
+          type: integer
+          format: primary_key
+        uri:
+          type: string
+          format: primary_key
+          uniqueItems: true
+          
+    chapter:
+      description: list of steps
+      properties:
+        id:
+          type: integer
+          format: primary_key
+        title:
+          type: string
+    
+    guide:
+      description: list of steps
+      properties:
+        id:
+          type: integer
+          format: primary_key
+        chapter_id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        rekomended_guides_id:
+          type: array
+          items:
+            type: integer
+        complited_by_user:
+          type: boolean
+        curent_step:
+          type: integer
+    
+    step:
+      description: guide 'step', simple instruction
+      properties:
+        id:
+          type: integer
+          format: primary_key
+        guide_id:
+          type: integer
+          format: primary_key
+        content:
+          type: string
+          format: json
+        complited:
+          type: boolean
+          
+    file:
+      description: file bytes
+      properties:
+        uri:
+          type: string
+          format: uri
+        title:
+          type: string
+        data:
+          type: string
+          format: binary
+        
+        
